@@ -13,9 +13,9 @@ variables:
 - template: shared.yml
   parameters:
     buildName: foo
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+- solution: '**/*.sln'
+- buildPlatform: 'Any CPU'
+- buildConfiguration: 'Release'
 
 name: $(buildPlatform)
 
