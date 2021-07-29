@@ -13,6 +13,11 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+- template: shared.yml
+  parameters:
+    buildName: foo
+
+name: $(buildPlatform)
 
 steps:
 - task: NuGetToolInstaller@1

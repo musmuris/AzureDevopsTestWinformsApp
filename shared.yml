@@ -1,0 +1,21 @@
+
+parameters:
+- name: 'buildName'
+  type: string
+  default: 'buildname-not-set'
+
+variables:
+  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
+  buildNumber: $[counter('buildNumber', 1)]
+  buildVersion: '1.1.$(buildNumber)'
+  buildConfiguration: 'Release'
+  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+    buildBranch:
+    isMasterBuild: true
+  ${{ if not(eq(variables['Build.SourceBranchName'], 'master')) }}:
+    buildBranch: -$(Build.SourceBranchName)
+    isMasterBuild: false
+  packageVersion: ${{variables.buildVersion}}${{variables.buildBranch}}
+  buildName: ${{paramters.buildName}}.${{variables.buildVersion}}${{variables.buildBranch}}
+  year: $[format('{0:yyyy}', pipeline.startTime)]
+  copyright: 'Copyright © Savanta Group Ltd. $(year)'
