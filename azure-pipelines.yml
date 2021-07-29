@@ -20,7 +20,7 @@ variables:
 - name: buildConfiguration
   value: 'Release'
 
-name: $(buildPlatform)
+name: $(buildName)
 
 steps:
 - task: Bash@3
