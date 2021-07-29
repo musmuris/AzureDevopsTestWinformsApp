@@ -22,6 +22,24 @@ name: $(buildPlatform)
 steps:
 - task: NuGetToolInstaller@1
 
+- task: CmdLine@2
+  inputs:
+    script: 'sqlcmd -l 60 -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"'
+    
+#- task: PowerShell@2
+#  inputs:
+#    targetType: 'inline'
+#    script: |
+#      Write-Host "Downloading"
+#      Import-Module BitsTransfer
+#      Start-BitsTransfer -Source https://download.microsoft.com/download/7/c/1/7c14e92e-bdcb-4f89-b7cf-93543e7112d1/SqlLocalDB.msi -Destination SqlLocalDB.msi      
+#      Write-Host "Installing"
+#      Start-Process -FilePath "SqlLocalDB.msi" -Wait -ArgumentList "/qn", "/norestart", "/l*v SqlLocalDBInstall.log", "IACCEPTSQLLOCALDBLICENSETERMS=YES";
+
+- task: CmdLine@2
+  inputs:
+    script: 'sqlcmd -S "(localdb)\MSSQLLocalDB" -Q "SELECT @@VERSION;"'
+    
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
