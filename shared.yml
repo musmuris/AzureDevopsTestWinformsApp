@@ -16,6 +16,6 @@ variables:
     buildBranch: -$(Build.SourceBranchName)
     isMasterBuild: false
   packageVersion: ${{variables.buildVersion}}${{variables.buildBranch}}
-  buildName: ${{paramters.buildName}}.${{variables.buildVersion}}${{variables.buildBranch}}
+  buildName: ${{parameters.buildName}}.${{variables.buildVersion}}${{variables.buildBranch}}
   year: $[format('{0:yyyy}', pipeline.startTime)]
   copyright: 'Copyright © Savanta Group Ltd. $(year)'
