@@ -23,6 +23,11 @@ variables:
 name: $(buildPlatform)
 
 steps:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'env | sort'
+
 - task: NuGetToolInstaller@1
 
 - task: CmdLine@2
