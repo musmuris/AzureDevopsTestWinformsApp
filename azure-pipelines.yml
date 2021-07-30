@@ -28,8 +28,8 @@ steps:
     targetType: 'inline'
     script: 'env | sort'
 
-- ${{ each value in variables.keys }}:
-  - script: echo ${{ value }}
+- ${{ each value in variables }}:
+  - script: echo ${{ value.key }}
 
 # - task: NuGetToolInstaller@1
 
