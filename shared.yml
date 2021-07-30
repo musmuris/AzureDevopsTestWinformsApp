@@ -9,9 +9,9 @@ variables:
   buildNumber: $[counter('buildNumber', 1)]
   buildVersion: '1.1.$(variables.buildNumber)'
   buildConfiguration: 'Release'
-  isMasterBuild: $[ in(variables['Build.SourceBranchName'], 'master', 'azure-pipelines')
-  isHotfix: $[ startsWith(variables['Build.SourceBranchName'], 'hotfix')
-  pushToOctopus: $[or(variables['isMasterBuild'],variables['isHotfix'])
+  isMasterBuild: $[in(variables['Build.SourceBranchName'], 'master', 'azure-pipelines')]
+  isHotfix: $[startsWith(variables['Build.SourceBranchName'], 'hotfix')]
+  pushToOctopus: $[or(variables['isMasterBuild'],variables['isHotfix'])]
   ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
     buildBranch:    
   ${{ if not(eq(variables['Build.SourceBranchName'], 'master')) }}:
