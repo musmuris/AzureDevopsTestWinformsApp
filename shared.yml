@@ -6,9 +6,10 @@ parameters:
 
 variables:
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
-  buildNumber: $[counter('buildNumber', 1)]
-  buildVersion: '1.1.$(buildNumber)'
+  buildNumber: ${{counter('buildNumber', 1)}}
+  buildVersion: '1.1.${{variables.buildNumber}}'
   buildConfiguration: 'Release'
+  isMasterBuild: 
   ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
     buildBranch:
     isMasterBuild: true
@@ -17,5 +18,5 @@ variables:
     isMasterBuild: false
   packageVersion: ${{variables.buildVersion}}${{variables.buildBranch}}
   buildName: ${{parameters.buildName}}.${{variables.buildVersion}}${{variables.buildBranch}}
-  year: $[format('{0:yyyy}', pipeline.startTime)]
-  copyright: 'Copyright © Savanta Group Ltd. $(year)'
+  year: ${{format('{0:yyyy}', pipeline.startTime)}}
+  copyright: 'Copyright Â© Savanta Group Ltd. $(year)'
