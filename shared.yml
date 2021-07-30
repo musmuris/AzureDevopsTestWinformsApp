@@ -6,17 +6,17 @@ parameters:
 
 variables:
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
-  buildNumber: ${{counter('buildNumber', 1)}}
-  buildVersion: '1.1.${{variables.buildNumber}}'
+  buildNumber: $[counter('buildNumber', 1)]
+  buildVersion: '1.1.$(variables.buildNumber)'
   buildConfiguration: 'Release'
-  isMasterBuild: 
+  isMasterBuild: $[ in(variables['Build.SourceBranchName'], 'master', 'azure-pipelines')
+  isHotfix: $[ startsWith(variables['Build.SourceBranchName'], 'hotfix')
+  pushToOctopus: $[or(variables['isMasterBuild'],variables['isHotfix'])
   ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
-    buildBranch:
-    isMasterBuild: true
+    buildBranch:    
   ${{ if not(eq(variables['Build.SourceBranchName'], 'master')) }}:
-    buildBranch: -$(Build.SourceBranchName)
-    isMasterBuild: false
+    buildBranch: -$(Build.SourceBranchName)    
   packageVersion: ${{variables.buildVersion}}${{variables.buildBranch}}
   buildName: ${{parameters.buildName}}.${{variables.buildVersion}}${{variables.buildBranch}}
-  year: ${{format('{0:yyyy}', pipeline.startTime)}}
+  year: $[format('{0:yyyy}', pipeline.startTime)]
   copyright: 'Copyright © Savanta Group Ltd. $(year)'
