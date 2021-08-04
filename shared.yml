@@ -3,21 +3,24 @@ parameters:
 - name: 'buildName'
   type: string
   default: 'buildname-not-set'
+- name: 'majorVersion'
+  type: number
+- name: 'minorVersion'
+  type: number
 
 variables:
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
   buildNumber: $[counter('buildNumber', 1)]
-  buildNumber2: ${{counter('buildNumber2', 1)}}
-  buildVersion: '1.1.$(buildNumber)'
+  buildVersion: '${{parameters.majorVersion}}.${{parameters.minorVersion}}.$(buildNumber)'
   buildConfiguration: 'Release'
-  isMasterBuild: $[in(variables['Build.SourceBranchName'], 'master', 'azure-pipelines')]
-  isHotfix: $[startsWith(variables['Build.SourceBranchName'], 'hotfix')]
-  pushToOctopus: $[or(variables['isMasterBuild'],variables['isHotfix'])]
+  isHotfix: ${{ startsWith( variables['Build.SourceBranchName'], 'hotfix' ) }}
+  isMasterBuild: ${{ in( variables['Build.SourceBranchName'], 'master', 'azure-pipelines' ) }}
+  pushToOctopus: ${{ or( eq(variables['isHotfix'], true), eq(variables['isMasterBuild'], true) ) }}
   ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
-    buildBranch:    
+    buildBranch:
   ${{ if not(eq(variables['Build.SourceBranchName'], 'master')) }}:
-    buildBranch: -$(Build.SourceBranchName)    
+    buildBranch: -$(Build.SourceBranchName)
   packageVersion: ${{variables.buildVersion}}${{variables.buildBranch}}
   buildName: ${{parameters.buildName}}.${{variables.buildVersion}}${{variables.buildBranch}}
   year: $[format('{0:yyyy}', pipeline.startTime)]
-  copyright: 'Copyright © Savanta Group Ltd. $(year)'
+  copyright: 'Musmuris $(year)'
