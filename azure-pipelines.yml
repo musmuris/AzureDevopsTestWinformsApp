@@ -23,11 +23,11 @@ variables:
   value: 'Release'
 
 name: ${{variables.buildName}}
-
+ 
+steps:
 - checkout: self
   persistCredentials: true
   
-steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
