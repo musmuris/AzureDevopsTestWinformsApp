@@ -13,6 +13,8 @@ variables:
 - template: shared.yml
   parameters:
     buildName: foo
+    majorVersion: 2
+    minorVersion: 2
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
@@ -61,3 +63,10 @@ steps:
 #    solution: '$(solution)'
 #    platform: '$(buildPlatform)'
 #    configuration: '$(buildConfiguration)'
+
+- script: |
+    git tag $(buildName)
+    git push origin $(buildName)
+  displayName: Tag Source
+  condition: ${{variables.pushToOctopus}}  
+  workingDirectory: $(Build.SourcesDirectory)
