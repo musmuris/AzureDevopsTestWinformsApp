@@ -24,6 +24,9 @@ variables:
 
 name: ${{variables.buildName}}
 
+- checkout: self
+  persistCredentials: true
+  
 steps:
 - task: Bash@3
   inputs:
